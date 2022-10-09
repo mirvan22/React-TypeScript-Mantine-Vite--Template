@@ -1,0 +1,73 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ],
+    "overrides": [
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react", "react-hooks", "@typescript-eslint", "prettier","unused-imports","@typescript-eslint"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": 0,
+        "no-param-reassign": 0,
+        "react/prop-types": 1,
+        "react/require-default-props": 0,
+        "react/no-array-index-key": 0,
+        "react/jsx-props-no-spreading": 0,
+        "react/forbid-prop-types": 0,
+        "import/order": 0,
+        "no-console": 0,
+        "jsx-a11y/anchor-is-valid": 0,
+        "prefer-destructuring": 0,
+        "no-shadow": 0,
+        "prettier/prettier": [
+          2,
+          {
+            "bracketSpacing": true,
+            "printWidth": 140,
+            "singleQuote": true,
+            "trailingComma": "es5",
+            "tabWidth": 2,
+            "useTabs": false,
+            "endOfLine": "auto",
+            "semi": false
+          }
+        ],
+        "radix": 0,
+        "import/prefer-default-export": 0,
+        "@typescript-eslint/no-explicit-any": 0,
+        "no-unused-vars": 0,
+        "unused-imports/no-unused-vars": [
+			"warn",
+			{ "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+		],
+        "no-empty-function": 0,
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "jsx-a11y/label-has-associated-control": 0,
+        "jsx-a11y/click-events-have-key-events":0,
+        "jsx-a11y/no-static-element-interactions":0,
+        "jsx-a11y/no-noninteractive-element-interactions":0,
+        "react-hooks/rules-of-hooks":0,
+        "react-hooks/exhaustive-deps": 0,
+        "unused-imports/no-unused-imports": 1,
+        "@typescript-eslint/no-var-requires": 0,
+        "react/react-in-jsx-scope": 0,
+        "import/extensions": 0,
+        "react/display-name": 0,
+        "object-shorthand": 1,
+        "prefer-template": 1
+      }
+}

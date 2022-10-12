@@ -1,37 +1,86 @@
-import { Navbar, NavLink, ScrollArea } from '@mantine/core'
-import { useState } from 'react'
+import { Box, Divider, Navbar, NavLink, ScrollArea } from '@mantine/core'
 import { Link, useLocation } from 'react-router-dom'
 import { MenuItems } from '../Menu/MenuItems'
-import { useAppSelector } from '../Store/hook'
+import { useAppDispatch, useAppSelector } from '../Store/hook'
+import { AppDispatch } from '../Store/store'
+import { useGlobalStyle } from '../Utils/GlobalStyle'
 
-interface ISideBar {
-  toggleValue?: number
-}
-
-export const SideBar = ({ toggleValue }: ISideBar) => {
-  const [active, setActive] = useState(0)
+export const SideBar = () => {
   const location = useLocation()
   const toggle = useAppSelector((state) => state.counter.sidebarToggle)
+  const { classes, cx } = useGlobalStyle()
+  const dispatch: AppDispatch = useAppDispatch()
+  const { pathname } = location
 
   return (
-    // <Box sx={{ backgroundColor: 'red', position: 'fixed', top: 60, bottom: 0, maxWidth: 300 }}>
-    //   <Box sx={{ width: 300 }}>Hello</Box>
-    // </Box>
-    <Navbar id="sidebar" width={{ base: toggle ? 300 : 55 }} sx={{ position: 'fixed', transitionDuration: '500ms' }}>
-      <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
-        {MenuItems.map((row, key) => (
-          <NavLink
-            key={key}
-            label={row.label}
-            description={row.description}
-            icon={row.icon}
-            active={key === active}
-            onClick={() => setActive(key)}
-            component={Link}
-            to={row.path}
-          />
-        ))}
-      </Navbar.Section>
-    </Navbar>
+    <>
+      <Navbar
+        className={classes.hiddenMobile}
+        id="sidebar"
+        width={{ base: toggle ? 250 : 50 }}
+        px={toggle ? 20 : 0}
+        sx={{ position: 'fixed', transitionDuration: '300ms' }}
+      >
+        <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+          {MenuItems.map((r, k) => (
+            <Box key={k}>
+              <Divider
+                my="xs"
+                label={r.label}
+                labelPosition="left"
+                sx={{ transform: toggle ? '' : 'translateX(-100px)', transitionDuration: '300ms' }}
+              />
+              {r.children.map((row) => (
+                <NavLink
+                  key={row.key}
+                  className={cx(classes.navLink, { [classes.active]: row.path === pathname })}
+                  label={row.label}
+                  mt={toggle ? 10 : 0}
+                  description={row.description}
+                  icon={row.icon}
+                  sx={{ transitionDuration: '100ms', borderRadius: toggle ? 10 : 0 }}
+                  component={Link}
+                  to={row.path}
+                />
+              ))}
+            </Box>
+          ))}
+        </Navbar.Section>
+      </Navbar>
+
+      <Navbar
+        className={classes.hiddenDesktop}
+        id="sidebar"
+        px={toggle ? 20 : 0}
+        sx={{ position: 'fixed', transitionDuration: '200ms', width: toggle ? '' : 1 }}
+      >
+        <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs">
+          {MenuItems.map((r, k) => (
+            <Box key={k}>
+              <Divider
+                my="xs"
+                label={r.label}
+                labelPosition="left"
+                sx={{ transform: toggle ? '' : 'translateX(-100px)', transitionDuration: '300ms' }}
+              />
+              {r.children.map((row) => (
+                <NavLink
+                  key={row.key}
+                  label={row.label}
+                  description={row.description}
+                  icon={row.icon}
+                  className={cx(classes.navLink, { [classes.active]: row.path === pathname })}
+                  onClick={() => {
+                    dispatch({ type: 'counter/sidebarToggle' })
+                  }}
+                  component={Link}
+                  to={row.path}
+                />
+              ))}
+            </Box>
+          ))}
+        </Navbar.Section>
+      </Navbar>
+    </>
   )
 }

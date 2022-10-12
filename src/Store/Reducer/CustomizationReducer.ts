@@ -1,34 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
 // Define a type for the slice state
 interface CounterState {
   sidebarToggle: boolean
-  userToggle: boolean
+  loadingOverlay: boolean
+  menuSection: boolean
 }
 
 // Define the initial state using that type
 const initialState: CounterState = {
   sidebarToggle: true,
-  userToggle: false,
+  loadingOverlay: false,
+  menuSection: false,
 }
 
 export const counterSlice = createSlice({
   name: 'counter',
-  // `createSlice` will infer the state type from the `initialState` argument
+
   initialState,
   reducers: {
     sidebarToggle: (state) => {
       state.sidebarToggle = !state.sidebarToggle
     },
 
-    userToggle: (state) => {
-      state.userToggle = !state.userToggle
+    loadingOverlay: (state, action: PayloadAction<boolean>) => {
+      state.loadingOverlay = action.payload
+    },
+    menuSectionReducer: (state, action: PayloadAction<boolean>) => {
+      state.menuSection = action.payload
     },
   },
 })
 
-export const { sidebarToggle, userToggle } = counterSlice.actions
+export const { sidebarToggle, loadingOverlay, menuSectionReducer } = counterSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.sidebarToggle

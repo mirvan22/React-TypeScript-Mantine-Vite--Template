@@ -1,6 +1,9 @@
 import { Paper, createStyles, TextInput, PasswordInput, Checkbox, Button, Title, Text, Anchor } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router'
+import { useAppDispatch, useAppSelector } from '../Store/hook'
+import { AppDispatch } from '../Store/store'
 import { API } from '../Utils/Axios'
 
 const useStyles = createStyles((theme) => ({
@@ -44,6 +47,7 @@ interface IInitialValues {
   password: string
 }
 export const Login = () => {
+  const [token, setToken] = useState()
   const form = useForm({
     initialValues: {
       username: '',
@@ -57,16 +61,28 @@ export const Login = () => {
   })
   const { classes } = useStyles()
   const navigate = useNavigate()
+  const dispatch: AppDispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.auth.auth)
+
+  if (user) {
+    return <Navigate to="/" />
+  }
+
   const handleSubmit = async (value: IInitialValues) => {
-    try {
-      API().post('/auth/login', {
+    API()
+      .post('/auth/login', {
         username: value.username,
         password: value.password,
       })
-      navigate('/')
-    } catch (error) {
-      console.log(error)
-    }
+      .then((res) => {
+        localStorage.setItem('login', JSON.stringify(res.data))
+        localStorage.setItem('role', res.data.data.role)
+        dispatch({ type: 'auth/getUser', payload: res.data.Authorization })
+        navigate('')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
   return (
     <form onSubmit={form.onSubmit(() => handleSubmit(form.values))}>

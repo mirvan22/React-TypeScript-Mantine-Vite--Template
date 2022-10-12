@@ -1,0 +1,16 @@
+
+.mantine{
+    &-LoadingOverlay{
+        &-root{
+            svg{
+                width: 100px;
+            }
+        }
+    }
+    &-Divider{
+        &-label{
+        font-size: 16px;
+        font-weight:600 ;
+        }
+    }
+}

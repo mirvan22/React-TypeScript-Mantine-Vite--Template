@@ -1,0 +1,33 @@
+@use 'colors';
+
+.button{
+    transition-duration: 200ms;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+
+    &--success{
+        @extend .button;
+        background-color: colors.$success;
+
+        &:hover{
+            background-color: colors.$success-hover;
+        }
+    }
+
+    &--danger{
+        @extend .button;
+        background-color: colors.$danger;
+
+        &:hover{
+            background-color: colors.$danger-hover;
+        }
+    }
+
+    &--primary{
+        @extend .button;
+        background-color: colors.$primary;
+
+        &:hover{
+            background-color: colors.$primary-hover;
+        }
+    }
+}

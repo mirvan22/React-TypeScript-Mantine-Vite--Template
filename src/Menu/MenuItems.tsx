@@ -1,4 +1,5 @@
-import { FaAdjust, FaHome } from 'react-icons/fa'
+import { AiFillDashboard } from 'react-icons/ai'
+import { FaAccusoft, FaUserAlt } from 'react-icons/fa'
 
 interface IMenuItems {
   key: string
@@ -7,7 +8,18 @@ interface IMenuItems {
   icon: any
   path: string
 }
-export const MenuItems: IMenuItems[] = [
-  { key: 'home', label: 'Home', icon: <FaHome size={30} />, path: '/' },
-  { key: 'about', label: 'About', icon: <FaAdjust size={30} />, path: '/about' },
+
+interface IParentMenu {
+  label: string
+  children: IMenuItems[]
+}
+export const MenuItems: IParentMenu[] = [
+  {
+    label: 'Application',
+    children: [
+      { key: 'home', label: 'Dashboard', icon: <AiFillDashboard size={25} />, path: '/' },
+      { key: 'users', label: 'Users', icon: <FaUserAlt size={25} />, path: '/users' },
+    ],
+  },
+  { label: 'Order', children: [{ key: 'order', label: 'Order', icon: <FaAccusoft size={25} />, path: '/order' }] },
 ]

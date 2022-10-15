@@ -1,17 +1,17 @@
 import { Col, Grid, Group, Paper, Title } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { MSearchInput } from '../Component/MSearchInput'
+import { ASearchInput } from './ASearcInput'
 
-interface IMMainTitle {
+interface IAMainTitle {
   label: string
   icon: any
   search?: boolean
 }
 
-const MMainTitle = ({ label, icon, search = true }: IMMainTitle) => {
+const AMainTitle = ({ label, icon, search = true }: IAMainTitle) => {
   const mobile = useMediaQuery('(max-width:768px)')
   return (
-    <Paper shadow="md" p="sm" sx={{ backgroundColor: 'rgb(26, 27, 30)' }}>
+    <Paper shadow="md" p="sm" className="main-color">
       <Grid justify="flex-start" gutter="xl">
         <Col span={mobile ? 12 : 5}>
           <Group align="center" sx={{ marginTop: 0 }}>
@@ -23,11 +23,11 @@ const MMainTitle = ({ label, icon, search = true }: IMMainTitle) => {
         </Col>
 
         <Col span={mobile ? 12 : 5} offset={mobile ? 0 : 2}>
-          {search && <MSearchInput />}
+          {search && <ASearchInput />}
         </Col>
       </Grid>
     </Paper>
   )
 }
 
-export default MMainTitle
+export default AMainTitle

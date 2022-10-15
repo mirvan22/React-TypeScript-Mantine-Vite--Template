@@ -5,6 +5,7 @@ import { Navigate, useNavigate } from 'react-router'
 import { useAppDispatch, useAppSelector } from '../Store/hook'
 import { AppDispatch } from '../Store/store'
 import { API } from '../Utils/Axios'
+import Swal from 'sweetalert2'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -69,18 +70,26 @@ export const Login = () => {
   }
 
   const handleSubmit = async (value: IInitialValues) => {
+    dispatch({ type: 'counter/loadingOverlay', payload: true })
     API()
       .post('/auth/login', {
         username: value.username,
         password: value.password,
       })
       .then((res) => {
+        dispatch({ type: 'counter/loadingOverlay', payload: false })
         localStorage.setItem('login', JSON.stringify(res.data))
         localStorage.setItem('role', res.data.data.role)
         dispatch({ type: 'auth/getUser', payload: res.data.Authorization })
         navigate('')
       })
       .catch((err) => {
+        dispatch({ type: 'counter/loadingOverlay', payload: false })
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: err.response.data.message,
+        })
         console.log(err)
       })
   }
@@ -92,12 +101,7 @@ export const Login = () => {
             Login
           </Title>
 
-          <TextInput
-            label={form.isTouched('username') ? 'Username' : 'Istouched'}
-            placeholder="Your username"
-            size="md"
-            {...form.getInputProps('username')}
-          />
+          <TextInput label={'Username'} placeholder="Your username" size="md" {...form.getInputProps('username')} />
           <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" {...form.getInputProps('password')} />
           <Checkbox label="Keep me logged in" mt="xl" size="md" />
           <Button fullWidth mt="xl" size="md" type="submit">

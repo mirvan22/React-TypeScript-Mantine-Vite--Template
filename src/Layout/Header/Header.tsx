@@ -1,11 +1,10 @@
 import { createStyles, Header, Group, Box } from '@mantine/core'
 
 import { MantineLogo } from '@mantine/ds'
-import { useDisclosure, useHover, useMediaQuery } from '@mantine/hooks'
+import { useHover, useMediaQuery } from '@mantine/hooks'
 import { FaHamburger, FaUserCircle } from 'react-icons/fa'
 import { useAppDispatch, useAppSelector } from '../../Store/hook'
 import { AppDispatch } from '../../Store/store'
-import { useGlobalStyle } from '../../Utils/GlobalStyle'
 import { MenuSection } from './MenuSection'
 
 const useStyles = createStyles((theme) => ({
@@ -34,9 +33,7 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export const AppHeader = () => {
-  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false)
   const { classes: __selfStyle } = useStyles()
-  const { classes } = useGlobalStyle()
   const { hovered, ref } = useHover()
   const mobile = useMediaQuery('(max-width:768px)')
   const dispatch: AppDispatch = useAppDispatch()
@@ -50,7 +47,7 @@ export const AppHeader = () => {
   return (
     <Box id="header">
       <Header height={60}>
-        <Group position="apart" sx={{ height: '100%', backgroundColor: 'rgb(26, 27, 30)' }}>
+        <Group position="apart" sx={{ height: '100%' }} className="main-color">
           <Box
             className={__selfStyle.hoverBurger}
             sx={{

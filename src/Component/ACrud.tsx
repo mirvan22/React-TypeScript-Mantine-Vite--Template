@@ -1,5 +1,8 @@
 import { Button, Grid, MantineNumberSize, MantineSize, Paper, Sx } from '@mantine/core'
 import React from 'react'
+import { useAppDispatch } from '../Store/hook'
+import { openStack } from '../Store/Reducer/CustomizationReducer'
+import { AppDispatch } from '../Store/store'
 
 export interface IButton {
   variant?: 'gradient' | 'filled' | 'outline' | 'default' | 'subtle' | 'light' | 'white' | undefined
@@ -8,17 +11,17 @@ export interface IButton {
   icon?: React.ReactNode
   upperCase?: boolean
   label?: string
-  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
+  openModal?: any
 }
 
-interface IMCrudAction {
+interface IACrud {
   paperBorder?: boolean
   sxPaper?: Sx | (Sx | undefined) | undefined
   gridGutter?: MantineNumberSize | undefined
-  COL: IButton[]
+  Action: IButton[]
 }
 
-export const MCrudAction = ({ paperBorder = true, gridGutter = 'sm', sxPaper, COL }: IMCrudAction) => {
+export const ACrud = ({ paperBorder = true, gridGutter = 'sm', sxPaper, Action: COL }: IACrud) => {
   function setButtonColor(__option: any) {
     if (__option === 'success') {
       return 'button--success'
@@ -28,6 +31,8 @@ export const MCrudAction = ({ paperBorder = true, gridGutter = 'sm', sxPaper, CO
       return 'button--danger'
     } else return 'button--primary'
   }
+
+  const dispatch: AppDispatch = useAppDispatch()
 
   return (
     <Paper withBorder={paperBorder} p="xs" sx={sxPaper}>
@@ -40,7 +45,7 @@ export const MCrudAction = ({ paperBorder = true, gridGutter = 'sm', sxPaper, CO
               size={row.size || 'xs'}
               leftIcon={row.icon}
               uppercase={row.upperCase || true}
-              onClick={row.onClick}
+              onClick={() => dispatch(openStack(row.openModal))}
             >
               {row.label}
             </Button>

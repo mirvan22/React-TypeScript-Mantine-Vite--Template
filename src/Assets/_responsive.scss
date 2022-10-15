@@ -1,0 +1,19 @@
+$mobile:768px;
+
+.view{
+    &--mobile{
+        @media screen and (max-width:$mobile) {
+            &--none {
+                display: none;
+            }
+        }
+    }
+
+    &--desktop{
+        @media screen and (min-width:$mobile) {
+            &--none {
+                display:none;
+            }
+        }
+    }
+}

@@ -1,43 +1,29 @@
 import { Table } from '@mantine/core'
 
-export interface ITableRootTR {
+export interface ITableTR {
   className?: any
   name?: any
-  TH: ITableRootTH[]
+  TH: ITableTH[]
 }
 
-export interface ITableRootTH {
+export interface ITableTH {
   label: any
   className?: any
 }
 
-export interface IMTableRoot {
+export interface IATable {
   children?: any
   hoverHighLight?: boolean
-  TR: ITableRootTR[]
+  TableHeader: ITableTR[]
 }
 
-export interface ITD {
-  label: any
-  className?: any
-}
-
-export interface ITableChildTR {
-  className?: any
-  TD: ITD[]
-}
-
-export interface IMTableChild {
-  TR: ITableChildTR[]
-}
-
-export const MTabelRoot = ({ children, hoverHighLight = false, TR }: IMTableRoot) => {
+export const ATable = ({ children, hoverHighLight = false, TableHeader: TR }: IATable) => {
   return (
     <Table highlightOnHover={hoverHighLight}>
       <thead>
-        {TR.map((row: ITableRootTR) => (
+        {TR.map((row: ITableTR) => (
           <tr key={row.name} className={row.className}>
-            {row.TH.map((r: ITableRootTH, k: number) => (
+            {row.TH.map((r: ITableTH, k: number) => (
               <th key={k} className={r.className}>
                 {r.label}
               </th>
@@ -50,12 +36,26 @@ export const MTabelRoot = ({ children, hoverHighLight = false, TR }: IMTableRoot
   )
 }
 
-export const MTableChild = ({ TR }: IMTableChild) => {
+export interface ITableBodyTD {
+  label: any
+  className?: any
+}
+
+export interface ITableBodyTR {
+  className?: any
+  TD: ITableBodyTD[]
+}
+
+export interface IATableBody {
+  TableBody: ITableBodyTR[]
+}
+
+export const ATableBody = ({ TableBody: TR }: IATableBody) => {
   return (
     <>
-      {TR.map((row: ITableChildTR, key: number) => (
+      {TR.map((row: ITableBodyTR, key: number) => (
         <tr key={key} className={row.className}>
-          {row.TD.map((r: ITD, k: number) => (
+          {row.TD.map((r: ITableBodyTD, k: number) => (
             <td key={k} className={r.className}>
               {r.label}
             </td>

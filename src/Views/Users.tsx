@@ -1,11 +1,11 @@
 import { FunctionComponent } from 'react'
 import { FaUserAlt } from 'react-icons/fa'
-import MMainTitle from '../Component/MMainTitle'
+import AMainTitle from '../Component/AMainTitle'
 
 const Users = () => {
   return (
     <>
-      <MMainTitle label="Users" icon={<FaUserAlt size={30} fill="white" />} />
+      <AMainTitle label="Users" icon={<FaUserAlt size={30} fill="white" />} />
     </>
   )
 }

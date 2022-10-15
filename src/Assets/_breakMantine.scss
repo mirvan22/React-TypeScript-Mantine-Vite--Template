@@ -1,3 +1,4 @@
+@use 'colors';
 
 .mantine{
     &-LoadingOverlay{
@@ -11,6 +12,73 @@
         &-label{
         font-size: 16px;
         font-weight:600 ;
+        }
+    }
+}
+
+
+.break{
+    &--mantine{
+        &--nav{
+            .mantine-NavLink{
+                &-label{
+                    color:colors.$text;
+                }
+                &-icon{
+                    color:colors.$text;
+                }
+            }
+
+            &:hover{
+                background-color: colors.$menu-bg-hover;
+                .mantine-NavLink{
+                    &-label{
+                        color:colors.$text-hover;
+                    }
+                    &-icon{
+                        color:colors.$text-hover;
+                    }
+                }
+            }
+
+
+            &--active{
+                background-color: colors.$active-bg;
+                .mantine-NavLink{
+                    &-label{
+                        color:colors.$active;
+                    }
+                    &-icon{
+                        color:colors.$active;
+                    }
+                }
+            }
+
+        }
+
+
+        &--modal{
+            .mantine-Modal{
+                &-modal{
+                    padding: 0;
+
+                }
+
+                &-title{
+                    padding: 10px;
+                    color:white
+                }
+                &-close{
+                    margin-right: 20px;
+                }
+
+                &-header{
+                    background-color: colors.$main-color;
+                    border-radius: 3px 3px 0 0;
+                    margin: 0;
+                }
+
+            }
         }
     }
 }

@@ -3,19 +3,17 @@ import { Link, useLocation } from 'react-router-dom'
 import { MenuItems } from '../Menu/MenuItems'
 import { useAppDispatch, useAppSelector } from '../Store/hook'
 import { AppDispatch } from '../Store/store'
-import { useGlobalStyle } from '../Utils/GlobalStyle'
 
 export const SideBar = () => {
   const location = useLocation()
   const toggle = useAppSelector((state) => state.counter.sidebarToggle)
-  const { classes, cx } = useGlobalStyle()
   const dispatch: AppDispatch = useAppDispatch()
   const { pathname } = location
 
   return (
     <>
       <Navbar
-        className={classes.hiddenMobile}
+        className="view--mobile--none"
         id="sidebar"
         width={{ base: toggle ? 250 : 50 }}
         px={toggle ? 20 : 0}
@@ -33,7 +31,7 @@ export const SideBar = () => {
               {r.children.map((row) => (
                 <NavLink
                   key={row.key}
-                  className={cx(classes.navLink, { [classes.active]: row.path === pathname })}
+                  className={`break--mantine--nav ${row.path === pathname && 'break--mantine--nav--active'}`}
                   label={row.label}
                   mt={toggle ? 10 : 0}
                   description={row.description}
@@ -49,7 +47,7 @@ export const SideBar = () => {
       </Navbar>
 
       <Navbar
-        className={classes.hiddenDesktop}
+        className="view--desktop--none"
         id="sidebar"
         px={toggle ? 20 : 0}
         sx={{ position: 'fixed', transitionDuration: '200ms', width: toggle ? '' : 1 }}
@@ -69,7 +67,7 @@ export const SideBar = () => {
                   label={row.label}
                   description={row.description}
                   icon={row.icon}
-                  className={cx(classes.navLink, { [classes.active]: row.path === pathname })}
+                  className={`break--mantine--nav ${row.path === pathname && 'break--mantine--nav--active'}`}
                   onClick={() => {
                     dispatch({ type: 'counter/sidebarToggle' })
                   }}

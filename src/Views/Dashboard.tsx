@@ -1,9 +1,13 @@
-import { Box, Paper } from '@mantine/core'
+import { Paper } from '@mantine/core'
 import { FunctionComponent } from 'react'
-import { IButton, MCrudAction } from '../Component/MCrudAction'
-import { MIconDashBoard, MIconPlus } from '../Component/MIcon'
-import MMainTitle from '../Component/MMainTitle'
-import { ITableChildTR, ITableRootTR, MTabelRoot, MTableChild } from '../Component/MTable'
+import { IButton, ACrud } from '../Component/ACrud'
+import { __IconDashBoard, __IconPlus } from '../Component/AIcon'
+import { AMainFooter } from '../Component/AMainFooter'
+import AMainTitle from '../Component/AMainTitle'
+import { ITableBodyTR, ITableTR, ATable, ATableBody } from '../Component/ATable'
+import { DashboardDialog } from '../Dialog/DashboardDialog'
+import { useAppDispatch } from '../Store/hook'
+import { AppDispatch } from '../Store/store'
 
 const elements = [
   { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
@@ -13,34 +17,45 @@ const elements = [
   { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
 ]
 
-const TableRoot: ITableRootTR[] = [
-  {
-    name: 'dashboard',
-    TH: [{ label: 'No' }, { label: 'Position' }, { label: 'Mass' }, { label: 'Symbol' }, { label: 'Name' }],
-  },
-]
-
-const TableChild: ITableChildTR[] = elements.map((row, key) => ({
-  className: 'hello',
-  TD: [{ label: key + 1 }, { label: row.position }, { label: row.mass }, { label: row.symbol }, { label: row.name }],
-}))
-
-const crudAction: IButton[] = [{ label: 'Tambah', icon: MIconPlus, className: 'success' }]
-
 const Dashboard = () => {
+  const dispatch: AppDispatch = useAppDispatch()
+
+  const tableHead: ITableTR[] = [
+    {
+      name: 'dashboard',
+      TH: [{ label: 'No' }, { label: 'Position' }, { label: 'Mass' }, { label: 'Symbol' }, { label: 'Name' }],
+    },
+  ]
+
+  const tableBody: ITableBodyTR[] = elements.map((row, key) => ({
+    className: 'hello',
+    TD: [{ label: key + 1 }, { label: row.position }, { label: row.mass }, { label: row.symbol }, { label: row.name }],
+  }))
+
+  const crudAction: IButton[] = [
+    {
+      label: 'Tambah',
+      icon: __IconPlus,
+      className: 'success',
+      openModal: <DashboardDialog />,
+    },
+  ]
   return (
-    <>
-      <MMainTitle label="Dashboard" icon={MIconDashBoard} />
-      <Box className="main-shadow">
-        <MCrudAction COL={crudAction} />
-        <Paper withBorder>
-          <MTabelRoot TR={TableRoot}>
-            <MTableChild TR={TableChild} />
-          </MTabelRoot>
-        </Paper>
-        <Paper className="main-shadow" p={20} sx={{ backgroundColor: 'rgb(26, 27, 30)' }}></Paper>
-      </Box>
-    </>
+    <Paper withBorder className="shadow--sm">
+      {/* Main Title -------------------------------------------*/}
+      <AMainTitle label="Dashboard" icon={__IconDashBoard} />
+
+      {/* Crud Action -------- Action di dalam Array Object*/}
+      <ACrud Action={crudAction} />
+
+      {/* Table --------- TableHeader di dalam Array Object*/}
+      <ATable TableHeader={tableHead}>
+        <ATableBody TableBody={tableBody} />
+      </ATable>
+
+      {/* Footer -------------------------------------------*/}
+      <AMainFooter />
+    </Paper>
   )
 }
 

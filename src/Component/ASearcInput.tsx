@@ -1,7 +1,7 @@
 import { TextInput, TextInputProps, ActionIcon, useMantineTheme } from '@mantine/core'
 import { IconSearch, IconArrowRight, IconArrowLeft } from '@tabler/icons'
 
-export const MSearchInput = (props: TextInputProps) => {
+export const ASearchInput = (props: TextInputProps) => {
   const theme = useMantineTheme()
 
   return (

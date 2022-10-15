@@ -7,6 +7,7 @@ import { SideBar } from './Sidebar'
 
 export const MainLayout = () => {
   const user = useAppSelector((state) => state.auth.auth)
+  const modal = useAppSelector((state) => state.counter.openStack)
   if (!user) {
     return <Navigate to="/login" />
   }
@@ -15,7 +16,7 @@ export const MainLayout = () => {
 
   const mobile = useMediaQuery('(max-width:768px)')
   return (
-    <Box id="mainlayout">
+    <Box id="Main--Layout">
       <Transition mounted={loadingOverlay} transition="fade">
         {(styles) => (
           <LoadingOverlay
@@ -42,6 +43,14 @@ export const MainLayout = () => {
       </Box>
       <AppHeader />
       <SideBar />
+
+      {modal.map((row: any, key: number) => {
+        return (
+          <Box key={key} className="">
+            {row}
+          </Box>
+        )
+      })}
     </Box>
   )
 }

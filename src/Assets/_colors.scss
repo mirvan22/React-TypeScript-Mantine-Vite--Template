@@ -1,14 +1,16 @@
 
-$main-color:rgb(26, 27, 30);
+$main-color:rgb(0, 43, 71);
 $success:#4d7c0f;
 $danger:#b91c1c;
 $primary:#0369a1;
 $success-hover:#365314;
 $danger-hover:#7f1d1d;
 $primary-hover:#0c4a6e;
+$hover:rgba(0, 174, 255, 0.08);
 
 
-
+$light:rgba(255,255,255,1);
+$title:rgba(255,255,255,1);
 $text:rgba(0,0,0,0.7);
 $text-hover:rgba(3,105,161,0.8);
 
@@ -20,7 +22,17 @@ $active:#0369a1;
 $active-bg:rgba(30,144,255,0.2);
 
 
-
 .main-color{
     background-color: $main-color;
+}
+
+.table-color{
+    color: $text;
+}
+
+.mantine-Text-root{
+    color: $text;
+}
+.mantine-Title-root{
+    color: $title;
 }

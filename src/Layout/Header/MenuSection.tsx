@@ -42,7 +42,7 @@ export const MenuSection = ({ mounted }: IMenuSection) => {
           withBorder
           ref={ref}
           style={{ ...styles, height: 300 }}
-          p={16}
+          p="md"
           sx={{ position: 'absolute', top: 50, right: 20, width: 300, boxShadow: '-1px 2px 5px rgba(0,0,0,0.3)', zIndex: 999999 }}
         >
           <Text weight={500} size="md">

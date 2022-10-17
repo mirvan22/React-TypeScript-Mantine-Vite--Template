@@ -1,9 +1,10 @@
 @import 'breakMantine';
 @import 'responsive';
 @import 'library';
+@import 'button';
 
 #Main--Layout{
-    @import 'button';
+
 
     #header{
         position: fixed;

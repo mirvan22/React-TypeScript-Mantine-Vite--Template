@@ -13,7 +13,7 @@ export const SideBar = () => {
   return (
     <>
       <Navbar
-        className="view--mobile--none"
+        className={`" view--mobile--none ${toggle ? '' : ' break--mantine--scroll '}"`}
         id="sidebar"
         width={{ base: toggle ? 250 : 50 }}
         px={toggle ? 20 : 0}
@@ -31,7 +31,9 @@ export const SideBar = () => {
               {r.children.map((row) => (
                 <NavLink
                   key={row.key}
-                  className={`break--mantine--nav ${row.path === pathname && 'break--mantine--nav--active'}`}
+                  className={` break--mantine--nav ${
+                    row.path === pathname ? 'break--mantine--nav--active' : 'break--mantine--nav--inactive'
+                  }`}
                   label={row.label}
                   mt={toggle ? 10 : 0}
                   description={row.description}
@@ -67,7 +69,7 @@ export const SideBar = () => {
                   label={row.label}
                   description={row.description}
                   icon={row.icon}
-                  className={`break--mantine--nav ${row.path === pathname && 'break--mantine--nav--active'}`}
+                  className={` break--mantine--nav ${row.path === pathname && ' break--mantine--nav--active '}`}
                   onClick={() => {
                     dispatch({ type: 'counter/sidebarToggle' })
                   }}

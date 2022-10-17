@@ -30,4 +30,12 @@
             background-color: colors.$primary-hover;
         }
     }
+
+    &--disabled{
+        background-color: rgba(122, 122, 122,0.2);
+
+        svg{
+            fill:rgba(122, 122, 122,0.5) ;
+        }
+    }
 }

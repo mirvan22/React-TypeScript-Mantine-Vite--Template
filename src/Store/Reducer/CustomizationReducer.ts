@@ -7,6 +7,7 @@ interface CounterState {
   loadingOverlay: boolean
   menuSection: boolean
   openStack: any
+  modalIsOpen: boolean
 }
 
 // Define the initial state using that type
@@ -15,6 +16,7 @@ const initialState: CounterState = {
   loadingOverlay: false,
   menuSection: false,
   openStack: [],
+  modalIsOpen: false,
 }
 
 export const counterSlice = createSlice({
@@ -38,10 +40,13 @@ export const counterSlice = createSlice({
     closeStack: (state) => {
       state.openStack.pop()
     },
+    modalIsOpen: (state, action: PayloadAction<boolean>) => {
+      state.modalIsOpen = action.payload
+    },
   },
 })
 
-export const { sidebarToggle, loadingOverlay, menuSectionReducer, openStack, closeStack } = counterSlice.actions
+export const { sidebarToggle, loadingOverlay, menuSectionReducer, openStack, closeStack, modalIsOpen } = counterSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.counter.sidebarToggle

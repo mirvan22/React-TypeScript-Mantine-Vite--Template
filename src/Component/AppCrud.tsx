@@ -1,27 +1,28 @@
 import { Button, Grid, MantineNumberSize, MantineSize, Paper, Sx } from '@mantine/core'
 import React from 'react'
 import { useAppDispatch } from '../Store/hook'
-import { openStack } from '../Store/Reducer/CustomizationReducer'
+import { modalIsOpen, openStack } from '../Store/Reducer/CustomizationReducer'
 import { AppDispatch } from '../Store/store'
 
-export interface IButton {
+export interface ICrudAction {
   variant?: 'gradient' | 'filled' | 'outline' | 'default' | 'subtle' | 'light' | 'white' | undefined
-  className?: 'success' | 'danger' | 'primary'
+  typeColor?: 'success' | 'danger' | 'primary'
   size?: MantineSize | undefined
   icon?: React.ReactNode
   upperCase?: boolean
   label?: string
   openModal?: any
+  disabled?: boolean
 }
 
-interface IACrud {
+interface IAppCrud {
   paperBorder?: boolean
   sxPaper?: Sx | (Sx | undefined) | undefined
   gridGutter?: MantineNumberSize | undefined
-  Action: IButton[]
+  Action: ICrudAction[] | undefined
 }
 
-export const ACrud = ({ paperBorder = true, gridGutter = 'sm', sxPaper, Action: COL }: IACrud) => {
+export const AppCrud = ({ paperBorder = true, gridGutter = 'sm', sxPaper, Action: COL }: IAppCrud) => {
   function setButtonColor(__option: any) {
     if (__option === 'success') {
       return 'button--success'
@@ -35,17 +36,21 @@ export const ACrud = ({ paperBorder = true, gridGutter = 'sm', sxPaper, Action: 
   const dispatch: AppDispatch = useAppDispatch()
 
   return (
-    <Paper withBorder={paperBorder} p="xs" sx={sxPaper}>
+    <Paper withBorder={paperBorder} p="xs" sx={sxPaper || { borderRadius: '0px' }}>
       <Grid gutter={gridGutter || 'sm'}>
-        {COL.map((row, key) => (
+        {COL?.map((row: ICrudAction, key: number) => (
           <Grid.Col key={key} span="content">
             <Button
+              disabled={!row.disabled || false}
               variant={row.variant || 'filled'}
-              className={setButtonColor(row.className)}
+              className={!row.disabled ? ' button--disabled ' : setButtonColor(row.typeColor)}
               size={row.size || 'xs'}
               leftIcon={row.icon}
               uppercase={row.upperCase || true}
-              onClick={() => dispatch(openStack(row.openModal))}
+              onClick={() => {
+                dispatch(modalIsOpen(true))
+                dispatch(openStack(row.openModal))
+              }}
             >
               {row.label}
             </Button>

@@ -8,6 +8,7 @@ import { SideBar } from './Sidebar'
 export const MainLayout = () => {
   const user = useAppSelector((state) => state.auth.auth)
   const modal = useAppSelector((state) => state.counter.openStack)
+  const modalIsOpen = useAppSelector((state) => state.counter.modalIsOpen)
   if (!user) {
     return <Navigate to="/login" />
   }
@@ -46,9 +47,9 @@ export const MainLayout = () => {
 
       {modal.map((row: any, key: number) => {
         return (
-          <Box key={key} className="">
-            {row}
-          </Box>
+          <Transition key={key} mounted={modalIsOpen} transition="fade" duration={500}>
+            {(styles) => <Box className="">{row}</Box>}
+          </Transition>
         )
       })}
     </Box>

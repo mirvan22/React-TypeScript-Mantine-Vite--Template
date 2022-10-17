@@ -1,4 +1,5 @@
 @use 'colors';
+@use 'library';
 
 .mantine{
     &-LoadingOverlay{
@@ -20,6 +21,9 @@
 .break{
     &--mantine{
         &--nav{
+
+
+            transition-duration: 300ms;
             .mantine-NavLink{
                 &-label{
                     color:colors.$text;
@@ -31,6 +35,7 @@
 
             &:hover{
                 background-color: colors.$menu-bg-hover;
+                border-radius: 100px;
                 .mantine-NavLink{
                     &-label{
                         color:colors.$text-hover;
@@ -44,6 +49,7 @@
 
             &--active{
                 background-color: colors.$active-bg;
+
                 .mantine-NavLink{
                     &-label{
                         color:colors.$active;
@@ -61,11 +67,12 @@
             .mantine-Modal{
                 &-modal{
                     padding: 0;
+                    box-shadow:library.$shadow-md ;
 
                 }
 
                 &-title{
-                    padding: 10px;
+                    padding: 5px;
                     color:white
                 }
                 &-close{
@@ -80,5 +87,36 @@
 
             }
         }
+
+
+        &--table{
+            &--active{
+                background-color: colors.$active-bg;
+            }
+
+            &--hover{
+                &:hover{
+                    background-color:colors.$hover;
+                }
+            }
+        }
+
+        &--scroll{
+            .mantine-ScrollArea-scrollbar{
+                display: none;
+            }
+        }
+
+        &--table{
+            &--stickyHeader{
+                position: sticky;
+                top:0;
+                background-color: colors.$light;
+                box-shadow: library.$shadow-xs;
+            }
+        }
     }
 }
+
+
+

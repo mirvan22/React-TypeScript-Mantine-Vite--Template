@@ -1,123 +1,122 @@
 import { FunctionComponent, useState } from 'react'
-import { AppCrud, ICrudAction } from '../Component/AppCrud'
 import { __IconDashBoard, __IconPlus } from '../Utils/UtilsIcon'
-import { DashboardDialog } from '../Dialog/DashboardDialog'
 import { TableOutletTemplate } from '../Template/TableOutletTemplate'
 import { Loader, ScrollArea } from '@mantine/core'
-import { AppSuperTable } from '../Component/AppSuperTable'
+import { AppTable } from '../Component/AppTable'
+import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { __catEmptyLottie } from '../Assets/Lottie/CatEmptyLottie'
+import { DashboardDialog } from '../Dialog/DashboardDialog'
+import { elements } from '../TestData'
 
-const elements = [
-  { position: 6, mass: 12.011, symbol: 'C', name: 'Carbon' },
-  { position: 7, mass: 14.007, symbol: 'N', name: 'Nitrogen' },
-  { position: 39, mass: 88.906, symbol: 'Y', name: 'Yttrium' },
-  { position: 56, mass: 137.33, symbol: 'Ba', name: 'Barium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-  { position: 58, mass: 140.12, symbol: 'Ce', name: 'Cerium' },
-]
-interface IAttribute {
-  OTableRoot: AppSuperTable.ITableRoot[]
-  OCrudAction: ICrudAction[]
+interface IElements {
+  TableElement: () => AppTable.ITableRoot[]
+  GridElement: () => IGridElements[]
 }
 const Dashboard = () => {
-  const [selected, setSelected] = useState<any | null>(null)
-  const data: any = [{}]
-  const Attribute: IAttribute = {
-    OTableRoot: [
-      {
-        key: 'Dashboard',
-        TableHeadRow: [
-          {
-            className: ' break--mantine--table--stickyHeader ',
-            TableHeader: [
-              {
-                label: 'No',
-              },
-              {
-                label: 'Name',
-              },
-              {
-                label: 'Position',
-              },
-              {
-                label: 'Mass',
-              },
-              {
-                label: 'Symbol',
-              },
-            ],
-          },
-        ],
-        TableBodyRow: !data
-          ? [
-              {
-                TableColumn: [
-                  {
-                    label: <Loader size="xl" variant="bars" m={20} />,
-                    colSpan: 99,
-                    align: 'center',
-                  },
-                ],
-              },
-            ]
-          : !data.length
-          ? [
-              {
-                TableColumn: [
-                  {
-                    label: __catEmptyLottie,
-                    colSpan: 99,
-                  },
-                ],
-              },
-            ]
-          : elements.map((row, key) => ({
-              TableColumn: [
+  const Elements: IElements = {
+    TableElement() {
+      return [
+        {
+          key: 'Dashboard',
+          TableHeadRow: [
+            {
+              className: ' break--mantine--table--stickyHeader ',
+              TableHeader: [
                 {
-                  label: key + 1,
+                  label: 'No',
                 },
                 {
-                  label: row.name,
+                  label: 'Name',
                 },
                 {
-                  label: row.position,
+                  label: 'Position',
                 },
                 {
-                  label: row.mass,
+                  label: 'Mass',
                 },
                 {
-                  label: row.symbol,
+                  label: 'Symbol',
                 },
               ],
-              selected() {
-                setSelected(row)
-              },
-            })),
-      },
-    ],
-
-    OCrudAction: [
-      {
-        label: 'Tambah',
-        icon: __IconPlus,
-        typeColor: 'success',
-        openModal: <DashboardDialog />,
-        disabled: selected,
-      },
-    ],
+            },
+          ],
+          TableBodyRow: !data
+            ? [
+                {
+                  TableColumn: [
+                    {
+                      label: <Loader size="xl" variant="bars" m={20} />,
+                      colSpan: 99,
+                      align: 'center',
+                    },
+                  ],
+                },
+              ]
+            : !data.length
+            ? [
+                {
+                  TableColumn: [
+                    {
+                      label: __catEmptyLottie,
+                      colSpan: 99,
+                    },
+                  ],
+                },
+              ]
+            : elements.map((row, key) => ({
+                TableColumn: [
+                  {
+                    label: key + 1,
+                  },
+                  {
+                    label: row.name,
+                  },
+                  {
+                    label: row.position,
+                  },
+                  {
+                    label: row.mass,
+                  },
+                  {
+                    label: row.symbol,
+                  },
+                ],
+                selected() {
+                  setSelected(row)
+                },
+              })),
+        },
+      ]
+    },
+    GridElement() {
+      return [
+        {
+          sx: { padding: 10 },
+          GridCol: [
+            {
+              colspan: 'content',
+              AppButton: [
+                {
+                  label: 'Tambah',
+                  icon: __IconPlus,
+                  disabled: !selected,
+                  CrudActionOpenModal: <DashboardDialog selected={selected} />,
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    },
   }
 
+  const [selected, setSelected] = useState<any | null>(null)
+  const data: any = [{}]
   return (
     <TableOutletTemplate label="Dashboard" icon={__IconDashBoard}>
-      <AppCrud Action={Attribute.OCrudAction} />
+      <GridTemplate GridRoot={Elements.GridElement()} />
       <ScrollArea.Autosize maxHeight="calc(100vh - 320px)">
-        <AppSuperTable TableRoot={Attribute.OTableRoot} />
+        <AppTable TableRoot={Elements.TableElement()} />
       </ScrollArea.Autosize>
     </TableOutletTemplate>
   )

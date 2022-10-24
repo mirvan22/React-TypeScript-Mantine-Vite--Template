@@ -1,9 +1,10 @@
-import { Col, Grid, Group, Paper, Select, Title } from '@mantine/core'
+import { Col, Grid, Group, Paper, Title } from '@mantine/core'
 import { __IconDashBoard } from '../Utils/UtilsIcon'
 
 import { BsFilterLeft } from 'react-icons/bs'
 import { AppSearchInput } from '../Component/AppSearchInput'
 import { useMediaQuery } from '@mantine/hooks'
+import { GridTemplate, IGridElements } from './GridTemplate'
 
 interface ITableOutletTemplate {
   label: string
@@ -16,11 +17,15 @@ interface IAppTitleOutlet {
   search?: boolean
 }
 
+interface IElements {
+  Grid: () => IGridElements[]
+}
+
 export const TableOutletTemplate = ({ label, icon, children }: Required<ITableOutletTemplate>) => {
   return (
     <>
       <TitleOutlet label={label || 'Dashboard'} icon={icon || __IconDashBoard} />
-      <Paper withBorder className="shadow--sm">
+      <Paper className="shadow--sm">
         <FilterOutlet />
         {children}
         <FooterOutlet />
@@ -31,8 +36,9 @@ export const TableOutletTemplate = ({ label, icon, children }: Required<ITableOu
 
 export const TitleOutlet = ({ label, icon, search = true }: IAppTitleOutlet) => {
   const mobile = useMediaQuery('(max-width:768px)')
+
   return (
-    <Paper shadow="md" p="xs" className="main-color" sx={{ borderRadius: '3px', marginBottom: 10 }}>
+    <Paper shadow="md" p="xs" className="main-color" sx={{ borderRadius: '5px', marginBottom: 10, boxShadow: '0 2px 5px rgba(0,0,0,0.5)' }}>
       <Grid justify="flex-start" gutter="xl" align="center">
         <Col span={mobile ? 12 : 5}>
           <Group align="center" sx={{ marginTop: 0 }}>
@@ -52,28 +58,43 @@ export const TitleOutlet = ({ label, icon, search = true }: IAppTitleOutlet) => 
 }
 
 export const FilterOutlet = () => {
+  const Elements: IElements = {
+    Grid() {
+      return [
+        {
+          gutter: 'xl',
+          props: { justify: 'flex-start', children: '' },
+          GridCol: [
+            {
+              colspan: 5,
+              AutoComplete: [
+                {
+                  props: {
+                    clearable: true,
+                    size: 'sm',
+                    maxDropdownHeight: 280,
+                    shadow: 'sm',
+                    searchable: true,
+                    nothingFound: 'No Options',
+                  },
+                  icon: <BsFilterLeft size={25} />,
+                  placeholder: 'Status',
+                  data: ['React', 'Angular', 'Svelte', 'Vue'],
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    },
+  }
   return (
-    <Paper shadow="md" p="sm" className="main-color" sx={{ borderRadius: '3px' }}>
-      <Grid justify="flex-start" gutter="xl">
-        <Col span={5}>
-          <Select
-            clearable
-            // onDropdownClose   Delete Params
-            size="sm"
-            maxDropdownHeight={280}
-            shadow="sm"
-            icon={<BsFilterLeft size={25} />}
-            placeholder="Status"
-            searchable
-            nothingFound="No options"
-            data={['React', 'Angular', 'Svelte', 'Vue']}
-          />
-        </Col>
-      </Grid>
+    <Paper shadow="md" p="sm" className="main-color" sx={{ borderRadius: '5px 5px 0px 0px' }}>
+      <GridTemplate GridRoot={Elements.Grid()} />
     </Paper>
   )
 }
 
 export const FooterOutlet = () => {
-  return <Paper className="main-color" p="md" sx={{ borderRadius: '0px 0px 3px 3px', boxShadow: '0 -1px 10px rgba(0,0,0,0.3)' }}></Paper>
+  return <Paper className="main-color" p="md" sx={{ borderRadius: '0px 0px 5px 5px', boxShadow: '0 -1px 10px rgba(0,0,0,0.3)' }}></Paper>
 }

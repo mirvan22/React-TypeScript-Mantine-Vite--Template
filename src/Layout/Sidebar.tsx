@@ -1,6 +1,6 @@
 import { Box, Divider, Navbar, NavLink, ScrollArea } from '@mantine/core'
 import { Link, useLocation } from 'react-router-dom'
-import { MenuItems } from '../Menu/MenuItems'
+import { MenuItems } from './MenuItems'
 import { useAppDispatch, useAppSelector } from '../Store/hook'
 import { AppDispatch } from '../Store/store'
 

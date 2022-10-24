@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+
     "target": "es5",
     "lib": [
       "dom",
@@ -20,7 +21,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "Documentation"],
+  "include": ["src", "index.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["node_modules"]
 }

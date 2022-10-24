@@ -18,6 +18,31 @@ export const MainLayout = () => {
   const mobile = useMediaQuery('(max-width:768px)')
   return (
     <Box id="Main--Layout">
+      {/* <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: -999999,
+          backgroundImage: `url(${Picture.MainBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      ></Box>
+      <Box
+        sx={{
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: -9999,
+          backgroundColor: 'rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(20px)',
+        }}
+      ></Box> */}
       <Transition mounted={loadingOverlay} transition="fade">
         {(styles) => (
           <LoadingOverlay

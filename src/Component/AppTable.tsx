@@ -1,93 +1,102 @@
-import { Table } from '@mantine/core'
-import { useState } from 'react'
-import { CatEmptyLottie } from '../Assets/Lottie/CatEmptyLottie'
+import { Table, TextInput } from '@mantine/core'
+import { UseForm } from '@mantine/form/lib/types'
+import React, { useState } from 'react'
+import { IClassSx } from '../Interface/IClassSx'
 
-export interface ITableHeadRow {
-  className?: string | undefined
-  name?: string | undefined
-  TableHead: ITableHead[] | undefined
+export declare namespace AppTable {
+  interface IAppTable {
+    TableRoot: ITableRoot[]
+  }
+  interface ITableRoot extends Omit<IClassSx, 'sx'> {
+    key?: React.Key | null | undefined
+    ref?: React.Ref<HTMLTableElement> | undefined
+    TableHeadRow: ITableHeadRow[]
+    TableBodyRow: ITableBodyRow[]
+  }
+  interface ITableHeadRow extends Omit<IClassSx, 'sx'> {
+    ref?: React.LegacyRef<HTMLTableRowElement> | undefined
+    TableHeader: ITableHeader[]
+  }
+  interface ITableHeader extends Omit<IClassSx, 'sx'> {
+    ref?: React.LegacyRef<HTMLTableHeaderCellElement> | undefined
+    label?: React.ReactNode | undefined
+    align?: 'left' | 'center' | 'right' | 'justify' | 'char' | undefined
+    colSpan?: number | undefined
+    rowSpan?: number | undefined
+  }
+
+  interface ITableBodyRow extends Omit<IClassSx, 'sx'> {
+    ref?: React.LegacyRef<HTMLTableRowElement> | undefined
+    selected?: () => void | undefined
+    TableColumn: ITableColumn[]
+  }
+  interface ITableColumn extends Omit<IClassSx, 'sx'> {
+    ref?: React.LegacyRef<HTMLTableDataCellElement> | undefined
+    label?: React.ReactNode | undefined
+    width?: string | number | undefined
+    align?: 'left' | 'center' | 'right' | 'justify' | 'char' | undefined
+    colSpan?: number | undefined
+    rowSpan?: number | undefined
+    getValue?: UseForm | undefined
+  }
 }
 
-export interface ITableHead {
-  label: React.ReactNode
-  className?: string | undefined
-}
-
-export interface IAppTable {
-  children?: JSX.Element | JSX.Element[]
-  hoverHighLight?: boolean
-  TableRow: ITableHeadRow[] | undefined
-  ref?: React.Ref<HTMLTableElement> | undefined
-}
-
-export const AppTable = ({ children, hoverHighLight = false, TableRow: TR, ref }: IAppTable) => {
-  return (
-    <Table ref={ref} highlightOnHover={hoverHighLight} verticalSpacing="md">
-      <thead>
-        {TR?.map((row: ITableHeadRow) => (
-          <tr
-            key={row.name}
-            className={row.className}
-            style={{ position: 'sticky', top: 0, backgroundColor: 'white', boxShadow: '0 1px 10px rgba(0,0,0,0.2)' }}
-          >
-            {row.TableHead?.map((r: ITableHead, k: number) => (
-              <th key={k} className={r.className}>
-                {r.label}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      {children}
-    </Table>
-  )
-}
-
-export interface IAppTableBodyColumn {
-  label: any
-  className?: any
-}
-
-export interface IAppTableBodyRow {
-  className?: any
-  Column: IAppTableBodyColumn[] | undefined
-  selected?: () => void | undefined
-}
-
-export interface IAppTableBody {
-  TableBodyRow: IAppTableBodyRow[] | undefined
-  data?: boolean
-}
-
-export const AppTableBody = ({ TableBodyRow: TR, data = false }: IAppTableBody) => {
+export const AppTable = ({ TableRoot }: AppTable.IAppTable) => {
   const [active, setActive] = useState<number | null>(null)
-
   return (
-    <tbody>
-      {data ? (
-        <tr>
-          <td colSpan={99}>
-            <CatEmptyLottie />
-          </td>
-        </tr>
-      ) : (
-        TR?.map((row: IAppTableBodyRow, key: number) => (
-          <tr
-            key={key}
-            className={key === active ? ' break--mantine--table--active ' : ' break--mantine--table--hover '}
-            onClick={() => {
-              setActive(key)
-              row.selected?.()
-            }}
-          >
-            {row.Column?.map((r: IAppTableBodyColumn, k: number) => (
-              <td key={k} className={` table-color  ${r.className}`} style={{ fontWeight: k === 0 ? 700 : 200 }}>
-                {r.label}
-              </td>
+    <>
+      {TableRoot.map((row) => (
+        <Table key={row.key} className={row.className} style={row.style} ref={row.ref}>
+          <thead>
+            {row.TableHeadRow?.map((r, key) => (
+              <tr key={key} className={r.className} style={r.style} ref={r.ref}>
+                {r.TableHeader.map((table, tableKey) => (
+                  <th
+                    key={tableKey}
+                    className={table.className}
+                    style={table.style}
+                    ref={table.ref}
+                    align={table.align}
+                    colSpan={table.colSpan}
+                    rowSpan={table.rowSpan}
+                  >
+                    {table.label}
+                  </th>
+                ))}
+              </tr>
             ))}
-          </tr>
-        ))
-      )}
-    </tbody>
+          </thead>
+          <tbody>
+            {row.TableBodyRow.map((r, k) => (
+              <tr
+                key={k}
+                className={` ${k === active ? ' break--mantine--table--active ' : ' break--mantine--table--hover '} ${r.className}`}
+                style={r.style}
+                ref={r.ref}
+                onClick={() => {
+                  setActive(k)
+                  r.selected?.()
+                }}
+              >
+                {r.TableColumn?.map((col, colKey) => (
+                  <td
+                    key={colKey}
+                    className={` table-color  ${col.className} `}
+                    style={{ fontWeight: colKey === 0 ? 700 : 200, ...col.style }}
+                    ref={col.ref}
+                    width={col.width}
+                    align={col.align}
+                    colSpan={col.colSpan}
+                    rowSpan={col.rowSpan}
+                  >
+                    {col.getValue ? <TextInput {...col.getValue} /> : col.label}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ))}
+    </>
   )
 }

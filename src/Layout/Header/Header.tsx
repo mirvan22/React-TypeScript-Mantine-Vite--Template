@@ -1,7 +1,8 @@
-import { createStyles, Header, Group, Box } from '@mantine/core'
+import { createStyles, Header, Group, Box, Drawer, Avatar, Center, Text, Divider } from '@mantine/core'
 
 import { MantineLogo } from '@mantine/ds'
 import { useHover, useMediaQuery } from '@mantine/hooks'
+import { useState } from 'react'
 import { FaHamburger, FaUserCircle } from 'react-icons/fa'
 import { useAppDispatch, useAppSelector } from '../../Store/hook'
 import { AppDispatch } from '../../Store/store'
@@ -39,10 +40,18 @@ export const AppHeader = () => {
   const dispatch: AppDispatch = useAppDispatch()
   const sidebarToggle = useAppSelector((state: any) => state.counter.sidebarToggle)
   const menuSection = useAppSelector((state) => state.counter.menuSection)
+  const user = useAppSelector((state) => state.auth.auth)
 
   const handleSidebarToggle = () => {
     dispatch({ type: 'counter/sidebarToggle' })
   }
+
+  const [opened, setOpened] = useState(false)
+
+  const splitting = (user && user.user.role.split('_', 2)) || ''
+  const getFirst = splitting[0].charAt(0)
+  const getLast = splitting[1].charAt(0)
+  console.log(splitting)
 
   return (
     <Box id="header">
@@ -61,32 +70,77 @@ export const AppHeader = () => {
           >
             <FaHamburger color="white" size={30} />
           </Box>
-          <Box
-            sx={{
-              width: sidebarToggle ? 'calc(100vw - 500px)' : 'calc(100vw - 200px)',
-              display: 'flex',
-
-              transitionDuration: '500ms',
-            }}
-          >
-            <MantineLogo className={__selfStyle.mantineLogo} size={30} />
-          </Box>
-
-          <Group ref={ref} sx={{ paddingRight: 20 }}>
+          {mobile ? (
             <Box
-              sx={{ display: 'flex' }}
-              onClick={() => {
-                dispatch({ type: 'counter/menuSectionReducer', payload: !menuSection })
+              sx={{
+                display: 'flex',
+
+                transitionDuration: '300ms',
               }}
             >
+              <MantineLogo className={__selfStyle.mantineLogo} size={30} />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: 'flex',
+                transitionDuration: '300ms',
+                position: 'absolute',
+                left: sidebarToggle ? 280 : 100,
+              }}
+            >
+              <MantineLogo className={__selfStyle.mantineLogo} size={30} />
+            </Box>
+          )}
+
+          <>
+            <Drawer
+              opened={opened}
+              sx={{
+                '.mantine-Paper-root': {
+                  boxShadow: '-2px 0px 10px rgba(0,0,0,0.3)',
+                  borderRadius: '5px 0px  0px 5px',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
+                  backdropFilter: 'blur(15px)',
+                },
+                '.mantine-Drawer-closeButton': {
+                  display: 'none',
+                },
+              }}
+              overlayColor="rgba(0,0,0,0.3)"
+              onClose={() => setOpened(false)}
+              size="sm"
+              position="right"
+            >
+              <Center>
+                <Avatar color="cyan" radius="xl" size="lg" sx={{ boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                  {getFirst}
+                  {getLast}
+                </Avatar>
+              </Center>
+              <Center mt="md">
+                <Text weight={500}>{user?.user.name}</Text>
+              </Center>
+              <Center>
+                <Text weight={200} italic size="xs">
+                  {user?.user.role}
+                </Text>
+              </Center>
+              <Box px="md">
+                <Divider my="xs" />
+              </Box>
+            </Drawer>
+
+            <Group position="center" pr="sm" ref={ref}>
               <FaUserCircle
                 className={__selfStyle.duration}
                 cursor="pointer"
                 size={30}
-                fill={hovered || menuSection ? 'rgb(51, 154, 240)' : 'white'}
+                fill={hovered ? 'rgb(51, 154, 240)' : 'white'}
+                onClick={() => setOpened(true)}
               />
-            </Box>
-          </Group>
+            </Group>
+          </>
         </Group>
       </Header>
 

@@ -34,7 +34,7 @@ export const counterSlice = createSlice({
     menuSectionReducer: (state, action: PayloadAction<boolean>) => {
       state.menuSection = action.payload
     },
-    openStack: (state, action: PayloadAction<JSX.Element[]>) => {
+    openStack: (state, action: PayloadAction<JSX.Element | JSX.Element[] | undefined>) => {
       state.openStack.push(action.payload)
     },
     closeStack: (state) => {

@@ -14,7 +14,7 @@
     "@mantine/modals": "^5.5.4",
     "@mantine/notifications": "^5.5.4",
     "@mantine/nprogress": "^5.5.4",
-    "@mantine/prism": "^5.5.4",
+    "@mantine/prism": "^5.6.0",
     "@mantine/rte": "^5.5.4",
     "@mantine/spotlight": "^5.5.4",
     "@react-icons/all-files": "^4.1.0",
@@ -46,6 +46,7 @@
     "vite-plugin-checker": "^0.5.1",
     "vite-tsconfig-paths": "^3.5.1",
     "web-vitals": "^2.1.4",
+    "yup": "^0.32.11",
     "zod": "^3.19.1"
   },
   "scripts": {

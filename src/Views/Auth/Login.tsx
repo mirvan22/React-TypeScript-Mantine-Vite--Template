@@ -2,9 +2,9 @@ import { Paper, createStyles, TextInput, PasswordInput, Checkbox, Button, Title,
 import { useForm } from '@mantine/form'
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router'
-import { useAppDispatch, useAppSelector } from '../Store/hook'
-import { AppDispatch } from '../Store/store'
-import { API } from '../Utils/Axios'
+import { useAppDispatch, useAppSelector } from '../../Store/hook'
+import { AppDispatch } from '../../Store/store'
+import { API } from '../../Utils/Axios'
 import Swal from 'sweetalert2'
 
 const useStyles = createStyles((theme) => ({

@@ -1,4 +1,4 @@
-import { Login } from '../Auth/Login'
+import { Login } from '../Views/Auth/Login'
 import { MinimalLayout } from '../Layout/MinimalLayout'
 
 export const AuthRoutes = {

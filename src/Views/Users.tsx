@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { FunctionComponent, useEffect, useState } from 'react'
 import { __IconDashBoard, __IconPlus } from '../Utils/UtilsIcon'
 import { TableOutletTemplate } from '../Template/TableOutletTemplate'
 import { Loader, ScrollArea } from '@mantine/core'
@@ -6,7 +6,7 @@ import { AppTable } from '../Component/AppTable'
 import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { __catEmptyLottie } from '../Assets/Lottie/CatEmptyLottie'
 import { DashboardDialog } from '../Dialog/DashboardDialog'
-import { elements } from '../TestData'
+import { GET } from '../Utils/Axios'
 
 interface IElements {
   TableElement: () => AppTable.ITableRoot[]
@@ -29,13 +29,13 @@ const Users = () => {
                   label: 'Name',
                 },
                 {
-                  label: 'Position',
+                  label: 'Username',
                 },
                 {
-                  label: 'Mass',
+                  label: 'Role',
                 },
                 {
-                  label: 'Symbol',
+                  label: 'Status',
                 },
               ],
             },
@@ -63,7 +63,7 @@ const Users = () => {
                   ],
                 },
               ]
-            : elements.map((row, key) => ({
+            : data?.map((row: any, key: number) => ({
                 TableColumn: [
                   {
                     label: key + 1,
@@ -72,13 +72,13 @@ const Users = () => {
                     label: row.name,
                   },
                   {
-                    label: row.position,
+                    label: row.username,
                   },
                   {
-                    label: row.mass,
+                    label: row.role,
                   },
                   {
-                    label: row.symbol,
+                    label: row.statusAktif ? 'AKTIF' : 'TIDAK AKTIF',
                   },
                 ],
                 selected() {
@@ -99,8 +99,8 @@ const Users = () => {
                 {
                   label: 'Tambah',
                   icon: __IconPlus,
-                  disabled: !selected,
-                  CrudActionOpenModal: <DashboardDialog selected={selected} />,
+
+                  CrudActionOpenModal: <DashboardDialog selected={selected} callBack={() => fetch()} />,
                 },
               ],
             },
@@ -110,8 +110,14 @@ const Users = () => {
     },
   }
 
+  const [data, setData] = useState(null as any)
   const [selected, setSelected] = useState<any | null>(null)
-  const data: any = [{}]
+
+  function fetch() {
+    GET('/user', useEffect, setData)
+  }
+
+  fetch()
   return (
     <TableOutletTemplate label="Dashboard" icon={__IconDashBoard}>
       <GridTemplate GridRoot={Elements.GridElement()} />

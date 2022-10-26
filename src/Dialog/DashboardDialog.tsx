@@ -1,63 +1,116 @@
 import { useForm } from '@mantine/form'
 import { __IconDashBoard } from '../Utils/UtilsIcon'
 import { DialogTitle, FormDialogTemplate } from '../Template/FormDialogTemplate'
-import { UseForm } from '@mantine/form/lib/types'
 import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { FaUserAlt } from 'react-icons/fa'
 import { AiOutlineKey } from 'react-icons/ai'
 
+import { AppDispatch } from '../Store/store'
+import { useDispatch } from 'react-redux'
+import { POST } from '../Utils/Axios'
+
 interface IDialog {
-  selected: any
+  selected?: any
+  callBack?: () => void
 }
 interface IAttribute {
-  formik: UseForm
+  GridElements: () => IGridElements[]
+  onSubmit: () => void
 }
 
-export const DashboardDialog = ({ selected }: IDialog) => {
+interface IInitialValues {
+  name: string
+  username: string
+  password: string
+  role: string | null
+}
+
+export const DashboardDialog = ({ selected, callBack }: IDialog) => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
+      name: '',
       username: '',
       password: '',
+      role: null,
     },
   })
-  const GridElements: IGridElements[] = [
-    {
-      margin: 'sm',
-      GridCol: [
-        {
-          colspan: 6,
-          TextInput: [
-            {
-              label: 'Username',
-              placeholder: 'Your Username',
-              icon: <FaUserAlt size={20} />,
-              getValue: { ...form.getInputProps('username') },
-            },
-          ],
-        },
-        {
-          colspan: 6,
-          TextInput: [
-            {
-              label: 'Password',
-              placeholder: 'Your Password',
-              icon: <AiOutlineKey size={20} />,
-              getValue: { ...form.getInputProps('password') },
-            },
-          ],
-        },
-      ],
-    },
-  ]
 
+  const Elements: IAttribute = {
+    GridElements() {
+      return [
+        {
+          margin: 'sm',
+          GridCol: [
+            {
+              colspan: 6,
+              TextInput: [
+                {
+                  label: 'Name',
+                  placeholder: 'Your Name',
+                  icon: <FaUserAlt size={20} />,
+                  getValue: { ...form.getInputProps('name') },
+                },
+              ],
+            },
+            {
+              colspan: 6,
+              TextInput: [
+                {
+                  label: 'Username',
+                  placeholder: 'Your Username',
+                  icon: <FaUserAlt size={20} />,
+                  getValue: { ...form.getInputProps('username') },
+                },
+              ],
+            },
+            {
+              colspan: 6,
+              PasswordInput: [
+                {
+                  label: 'Password',
+                  placeholder: 'Role',
+                  icon: <AiOutlineKey size={20} />,
+                  getValue: { ...form.getInputProps('password') },
+                },
+              ],
+            },
+
+            {
+              colspan: 6,
+              AutoComplete: [
+                {
+                  label: 'Role',
+                  placeholder: 'Your Password',
+                  icon: <AiOutlineKey size={20} />,
+                  data: ['ADMIN', 'SUPER_USER', 'USER'],
+                  getValue: { ...form.getInputProps('role') },
+                },
+              ],
+            },
+          ],
+        },
+      ]
+    },
+    async onSubmit() {
+      await POST(
+        '/auth/register',
+        {
+          name: form.values.name,
+          username: form.values.username,
+          password: form.values.password,
+          role: form.values.role,
+        } as IInitialValues,
+        dispatch,
+        callBack && callBack()
+      )
+    },
+  }
+
+  const dispatch: AppDispatch = useDispatch()
   return (
-    <FormDialogTemplate
-      title={DialogTitle('Dashboard', __IconDashBoard)}
-      size="lg"
-      onSubmit={form.onSubmit((values) => console.log(values))}
-    >
-      <GridTemplate GridRoot={GridElements} />
+    <FormDialogTemplate title={DialogTitle('Dashboard', __IconDashBoard)} size="lg" onSubmit={form.onSubmit(() => Elements.onSubmit())}>
+      <GridTemplate GridRoot={Elements.GridElements()} />
     </FormDialogTemplate>
   )
 }

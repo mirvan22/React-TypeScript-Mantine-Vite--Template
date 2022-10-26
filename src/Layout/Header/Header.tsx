@@ -51,7 +51,6 @@ export const AppHeader = () => {
   const splitting = (user && user.user.role.split('_', 2)) || ''
   const getFirst = splitting[0].charAt(0)
   const getLast = splitting[1].charAt(0)
-  console.log(splitting)
 
   return (
     <Box id="header">

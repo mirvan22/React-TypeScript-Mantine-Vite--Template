@@ -14,6 +14,8 @@ import {
   Select,
   SelectItem,
   SelectProps,
+  Switch,
+  SwitchProps,
   Sx,
   TextInput,
   TextInputProps,
@@ -83,6 +85,12 @@ interface IAppButton extends Omit<IClassSx, 'style' | 'className'> {
   onClick?: () => void | undefined
 }
 
+interface ISwitch {
+  label?: React.ReactNode
+  props?: SwitchProps
+  getValue?: UseForm
+}
+
 interface IBox extends Omit<IClassSx, 'style'> {
   child?: JSX.Element | JSX.Element[] | undefined
   props?: BoxProps
@@ -96,6 +104,7 @@ interface IColumn extends Omit<IClassSx, 'style'>, IColumnDocumentation {
   PasswordInput?: IPasswordInput[]
   NumberInput?: INumberInput[]
   AppButton?: IAppButton[]
+  Switch?: ISwitch[]
   Box?: IBox[]
   props?: ColProps
 }
@@ -231,6 +240,10 @@ export const GridTemplate = ({ GridRoot }: IGridTemplate) => {
                   label={r.label}
                   onClick={() => r.onClick?.()}
                 />
+              ))}
+
+              {col.Switch?.map((r, k) => (
+                <Switch key={k} label={r.label} {...r.props} {...r.getValue} />
               ))}
 
               {col.Box?.map((r, k: number) => (

@@ -1,5 +1,4 @@
 import { useForm } from '@mantine/form'
-import { __IconDashBoard } from '../Utils/UtilsIcon'
 import { DialogTitle, FormDialogTemplate } from '../Template/FormDialogTemplate'
 import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { FaUserAlt } from 'react-icons/fa'
@@ -8,12 +7,13 @@ import { AiOutlineKey } from 'react-icons/ai'
 import { AppDispatch } from '../Store/store'
 import { useDispatch } from 'react-redux'
 import { POST } from '../Utils/Axios'
+import { Icon } from '../Utils/Icon'
 
 interface IDialog {
-  selected?: any
+  SELECTED?: any
   callBack?: () => void
 }
-interface IAttribute {
+interface IElements {
   GridElements: () => IGridElements[]
   onSubmit: () => void
 }
@@ -25,7 +25,7 @@ interface IInitialValues {
   role: string | null
 }
 
-export const DashboardDialog = ({ selected, callBack }: IDialog) => {
+export const DashboardDialog = ({ SELECTED, callBack }: IDialog) => {
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -36,7 +36,7 @@ export const DashboardDialog = ({ selected, callBack }: IDialog) => {
     },
   })
 
-  const Elements: IAttribute = {
+  const Elements: IElements = {
     GridElements() {
       return [
         {
@@ -101,15 +101,14 @@ export const DashboardDialog = ({ selected, callBack }: IDialog) => {
           password: form.values.password,
           role: form.values.role,
         } as IInitialValues,
-        dispatch,
-        callBack && callBack()
+        dispatch
       )
     },
   }
 
   const dispatch: AppDispatch = useDispatch()
   return (
-    <FormDialogTemplate title={DialogTitle('Dashboard', __IconDashBoard)} size="lg" onSubmit={form.onSubmit(() => Elements.onSubmit())}>
+    <FormDialogTemplate title={DialogTitle('Dashboard', Icon.Hero.Dashboard)} size="lg" onSubmit={form.onSubmit(() => Elements.onSubmit())}>
       <GridTemplate GridRoot={Elements.GridElements()} />
     </FormDialogTemplate>
   )

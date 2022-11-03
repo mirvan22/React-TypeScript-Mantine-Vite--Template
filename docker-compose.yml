@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+
+  MantineFrontend:
+    container_name: MantineFrontend
+    image: node:16.3.0-alpine
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - 3030:3030
+    command: npm run start
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+      - main
+
+volumes:
+  MantineFrontendVolume:
+

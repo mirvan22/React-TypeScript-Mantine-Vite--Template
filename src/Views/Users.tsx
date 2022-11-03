@@ -1,5 +1,4 @@
 import { FunctionComponent, useEffect, useState } from 'react'
-import { __IconDashBoard, __IconPlus } from '../Utils/UtilsIcon'
 import { TableOutletTemplate } from '../Template/TableOutletTemplate'
 import { Loader, ScrollArea } from '@mantine/core'
 import { AppTable } from '../Component/AppTable'
@@ -7,6 +6,7 @@ import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { __catEmptyLottie } from '../Assets/Lottie/CatEmptyLottie'
 import { DashboardDialog } from '../Dialog/DashboardDialog'
 import { GET } from '../Utils/Axios'
+import { Icon } from '../Utils/Icon'
 
 interface IElements {
   TableElement: () => AppTable.ITableRoot[]
@@ -98,9 +98,9 @@ const Users = () => {
               AppButton: [
                 {
                   label: 'Tambah',
-                  icon: __IconPlus,
+                  icon: Icon.Button.Plus,
 
-                  CrudActionOpenModal: <DashboardDialog selected={selected} callBack={() => fetch()} />,
+                  CrudActionOpenModal: <DashboardDialog SELECTED={selected} callBack={() => fetch()} />,
                 },
               ],
             },
@@ -119,7 +119,7 @@ const Users = () => {
 
   fetch()
   return (
-    <TableOutletTemplate label="Dashboard" icon={__IconDashBoard}>
+    <TableOutletTemplate label="Dashboard" icon={Icon.Hero.User}>
       <GridTemplate GridRoot={Elements.GridElement()} />
       <ScrollArea.Autosize maxHeight="calc(100vh - 320px)">
         <AppTable TableRoot={Elements.TableElement()} />

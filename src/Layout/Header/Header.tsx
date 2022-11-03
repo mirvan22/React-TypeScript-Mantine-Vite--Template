@@ -73,7 +73,6 @@ export const AppHeader = () => {
             <Box
               sx={{
                 display: 'flex',
-
                 transitionDuration: '300ms',
               }}
             >

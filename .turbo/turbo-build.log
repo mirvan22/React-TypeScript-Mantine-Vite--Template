@@ -1,0 +1,27 @@
+
+> frontend@0.1.0 build
+> npm run vite build
+
+
+> frontend@0.1.0 vite
+> vite "build"
+
+vite v3.1.6 building for production...
+transforming...
+✓ 662 modules transformed.
+[vite]: Rollup failed to resolve import "@tabler/icons" from "src/Component/AppSearchInput.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+error during build:
+Error: [vite]: Rollup failed to resolve import "@tabler/icons" from "src/Component/AppSearchInput.tsx".
+This is most likely unintended because it can break your application at runtime.
+If you do want to externalize this module explicitly add it to
+`build.rollupOptions.external`
+    at onRollupWarning (file:///home/irvan/__Code/__NestJs/__Fullstack_Nest_React/frontend/node_modules/vite/dist/node/chunks/dep-db16f19c.js:45916:19)
+    at onwarn (file:///home/irvan/__Code/__NestJs/__Fullstack_Nest_React/frontend/node_modules/vite/dist/node/chunks/dep-db16f19c.js:45714:13)
+    at Object.onwarn (file:///home/irvan/__Code/__NestJs/__Fullstack_Nest_React/frontend/node_modules/vite/node_modules/rollup/dist/es/shared/rollup.js:23225:13)
+    at ModuleLoader.handleResolveId (file:///home/irvan/__Code/__NestJs/__Fullstack_Nest_React/frontend/node_modules/vite/node_modules/rollup/dist/es/shared/rollup.js:22352:26)
+    at file:///home/irvan/__Code/__NestJs/__Fullstack_Nest_React/frontend/node_modules/vite/node_modules/rollup/dist/es/shared/rollup.js:22313:26
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+src/Component/AppSearchInput.tsx(2,59): error TS2307: Cannot find module '@tabler/icons' or its corresponding type declarations.

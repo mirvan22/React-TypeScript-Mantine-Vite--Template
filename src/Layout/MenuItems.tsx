@@ -1,5 +1,5 @@
-import { AiFillDashboard } from 'react-icons/ai'
-import { FaAccusoft, FaUserAlt } from 'react-icons/fa'
+import { FaAccusoft } from 'react-icons/fa'
+import { Icon } from '../Utils/Icon'
 
 interface IMenuItems {
   key: string
@@ -17,8 +17,10 @@ export const MenuItems: IParentMenu[] = [
   {
     label: 'Application',
     children: [
-      { key: 'home', label: 'Dashboard', icon: <AiFillDashboard size={25} />, path: '/' },
-      { key: 'users', label: 'Users', icon: <FaUserAlt size={25} />, path: '/users' },
+      { key: 'home', label: 'Dashboard', icon: Icon.Hero.Dashboard, path: '/' },
+      { key: 'users', label: 'Users', icon: Icon.Hero.User, path: '/users' },
+
+      //Seed Dont Delete This Comment
     ],
   },
   { label: 'Order', children: [{ key: 'order', label: 'Order', icon: <FaAccusoft size={25} />, path: '/order' }] },

@@ -1,6 +1,6 @@
 import { Box, LoadingOverlay, Transition } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useAppSelector } from '../Store/hook'
 import { AppHeader } from './Header/Header'
 import { SideBar } from './Sidebar'
@@ -9,9 +9,9 @@ export const MainLayout = () => {
   const user = useAppSelector((state) => state.auth.auth)
   const modal = useAppSelector((state) => state.counter.openStack)
   const modalIsOpen = useAppSelector((state) => state.counter.modalIsOpen)
-  // if (!user) {
-  //   return <Navigate to="/login" />
-  // }
+  if (!user) {
+    return <Navigate to="/login" />
+  }
   const toggle = useAppSelector((state) => state.counter.sidebarToggle)
   const loadingOverlay = useAppSelector((state) => state.counter.loadingOverlay)
 

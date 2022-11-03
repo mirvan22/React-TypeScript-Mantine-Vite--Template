@@ -1,12 +1,12 @@
 import { FunctionComponent, useState } from 'react'
-import { __IconDashBoard, __IconPlus } from '../Utils/UtilsIcon'
+
 import { TableOutletTemplate } from '../Template/TableOutletTemplate'
 import { Loader, ScrollArea } from '@mantine/core'
 import { AppTable } from '../Component/AppTable'
 import { GridTemplate, IGridElements } from '../Template/GridTemplate'
 import { __catEmptyLottie } from '../Assets/Lottie/CatEmptyLottie'
-import { DashboardDialog } from '../Dialog/DashboardDialog'
 import { elements } from '../TestData'
+import { Icon } from '../Utils/Icon'
 
 interface IElements {
   TableElement: () => AppTable.ITableRoot[]
@@ -14,6 +14,7 @@ interface IElements {
 }
 const Dashboard = () => {
   const Elements: IElements = {
+    /** Table */
     TableElement() {
       return [
         {
@@ -88,6 +89,8 @@ const Dashboard = () => {
         },
       ]
     },
+
+    /** Crud Action */
     GridElement() {
       return [
         {
@@ -98,9 +101,9 @@ const Dashboard = () => {
               AppButton: [
                 {
                   label: 'Tambah',
-                  icon: __IconPlus,
+                  icon: Icon.Button.Plus,
                   disabled: !selected,
-                  CrudActionOpenModal: <DashboardDialog selected={selected} />,
+                  // CrudActionOpenModal: <DashboardDialog selected={selected} />,
                 },
               ],
             },
@@ -113,7 +116,7 @@ const Dashboard = () => {
   const [selected, setSelected] = useState<any | null>(null)
   const data: any = [{}]
   return (
-    <TableOutletTemplate label="Dashboard" icon={__IconDashBoard}>
+    <TableOutletTemplate label="Dashboard" icon={Icon.Hero.Dashboard}>
       <GridTemplate GridRoot={Elements.GridElement()} />
       <ScrollArea.Autosize maxHeight="calc(100vh - 320px)">
         <AppTable TableRoot={Elements.TableElement()} />

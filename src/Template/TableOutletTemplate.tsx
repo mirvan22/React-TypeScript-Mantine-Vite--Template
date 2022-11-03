@@ -1,10 +1,10 @@
 import { Col, Grid, Group, Paper, Title } from '@mantine/core'
-import { __IconDashBoard } from '../Utils/UtilsIcon'
 
 import { BsFilterLeft } from 'react-icons/bs'
 import { AppSearchInput } from '../Component/AppSearchInput'
 import { useMediaQuery } from '@mantine/hooks'
 import { GridTemplate, IGridElements } from './GridTemplate'
+import { Icon } from '../Utils/Icon'
 
 interface ITableOutletTemplate {
   label: string
@@ -24,7 +24,7 @@ interface IElements {
 export const TableOutletTemplate = ({ label, icon, children }: Required<ITableOutletTemplate>) => {
   return (
     <>
-      <TitleOutlet label={label || 'Dashboard'} icon={icon || __IconDashBoard} />
+      <TitleOutlet label={label || 'Dashboard'} icon={icon || Icon.Hero.Dashboard} />
       <Paper className="shadow--sm">
         <FilterOutlet />
         {children}
